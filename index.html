@@ -19,6 +19,7 @@
               return !todo.isDone;
             });
             return (
+              <button onClick={props.purge}>一括削除</button>
               <h1>
                 My todos
                 <span>({remaining.length}/{props.todos.length})</span>
@@ -85,6 +86,20 @@
               this.deleteTodo = this.deleteTodo.bind(this);
               this.updateItem = this.updateItem.bind(this);
               this.addTodo = this.addTodo.bind(this);
+              this.purge = this.purge.bind(this);
+            }
+
+            purge() {
+              if (!confirm('Are you sure?')) {
+                return;
+              }
+
+              const todos = this.state.todos.filter(todo => {
+                return !todo.isDone;
+              });
+              this.setState({
+                todos: todos
+              })
             }
 
             addTodo(e) {
@@ -148,6 +163,7 @@
                 <div className="container">
                   <TodoHeader
                     todos={this.state.todos}
+                    purge={this.purge}
                   />
                   <TodoList 
                     todos={this.state.todos}
